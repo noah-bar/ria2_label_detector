@@ -9,5 +9,71 @@ const remoteImagePath = "https://media.istockphoto.com/id/1443562748/fr/photo/mi
 const labelDetector = new GoogleLabelDetector(keyPath);
 
 describe('Test analyse method', () => {
-  
+    it('should analyse local image with default value', async () => {
+        //Given
+        expect(existsSync(localImagePath)).toBeTruthy()
+
+        //when
+        const labels = await labelDetector.analyze(localImagePath)
+        labels.forEach(label => {
+            expect(label.score >= 90).toBeTruthy()
+        })
+        expect(labels.length).toBeLessThanOrEqual(7)
+    })
+
+    it('should analyse remote image with default value', async () => {
+        //Given
+        const res = await fetch(remoteImagePath, { method: 'HEAD'})
+        expect(res.ok).toBeTruthy()
+
+        //when
+        const labels = await labelDetector.analyze(remoteImagePath)
+        labels.forEach(label => {
+            expect(label.score >= 90).toBeTruthy()
+        })
+        expect(labels.length).toBeLessThanOrEqual(7)
+    })
+
+    it('should analyse remote image with max label value', async () => {
+        //Given
+        const maxLabel = 5
+        const res = await fetch(remoteImagePath, { method: 'HEAD'})
+        expect(res.ok).toBeTruthy()
+
+        //when
+        const labels = await labelDetector.analyze(remoteImagePath, maxLabel)
+        labels.forEach(label => {
+            expect(label.score >= 90).toBeTruthy()
+        })
+        expect(labels.length).toBeLessThanOrEqual(maxLabel)
+    })
+
+    it('should analyse remote image with max min confidence level value', async () => {
+        //Given
+        const minConfidence = 60
+        const res = await fetch(remoteImagePath, { method: 'HEAD'})
+        expect(res.ok).toBeTruthy()
+
+        //when
+        const labels = await labelDetector.analyze(remoteImagePath, 7, minConfidence)
+        labels.forEach(label => {
+            expect(label.score < minConfidence).toBeFalsy()
+        })
+        expect(labels.length).toBeLessThanOrEqual(7)
+    })
+
+    it('should analyse remote image with custom values', async () => {
+        //Given
+        const minConfidence = 60
+        const maxLabel = 5
+        const res = await fetch(remoteImagePath, { method: 'HEAD'})
+        expect(res.ok).toBeTruthy()
+
+        //when
+        const labels = await labelDetector.analyze(remoteImagePath, maxLabel, minConfidence)
+        labels.forEach(label => {
+            expect(label.score < minConfidence).toBeFalsy()
+        })
+        expect(labels.length).toBeLessThanOrEqual(maxLabel)
+    })
 })
