@@ -16,7 +16,7 @@ app.use(express.json())
 
 router.post('/analyse', async (req: Request, res: Response) => {
   const image: string = req.body.image
-  const maxResult: number = req.body.maxResult || 7
+  const maxResults: number = req.body.maxResults || 7
   const minConfidenceLevel: number = req.body.minConfidenceLevel || 90
 
   if(!image) {
@@ -25,7 +25,7 @@ router.post('/analyse', async (req: Request, res: Response) => {
     })
   }
   try {
-    const labels = await googleLabelDetector.analyze(image, maxResult, minConfidenceLevel)
+    const labels = await googleLabelDetector.analyze(image, maxResults, minConfidenceLevel)
     return res.json(labels)
   } catch(err: unknown) {
     return res.json({ errors: ['Unknown error']})
