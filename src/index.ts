@@ -1,20 +1,18 @@
 import GoogleLabelDetector from "./GoogleLabelDetector";
 import express, {Request, Response, Router} from 'express'
-import multer from 'multer'
 import { resolve } from "path";
 
-const PORT = 3000
+const PORT = 4000
 const app = express()
 const router = Router()
-const upload = multer()
 
 const keyFilename = resolve("./config/key.json")
 const googleLabelDetector = new GoogleLabelDetector(keyFilename)
 
 app.use(express.json())
 
-router.post('/analyse',upload.single('image'), async (req: Request, res: Response) => {
-  const image: string | undefined = req.body.image
+router.post('/analyse', async (req: Request, res: Response) => {
+  const image: string = req.body.image
   if(!image) {
     return res.status(401).send({
       errors: ["The request must contain an image"]
