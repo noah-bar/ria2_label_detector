@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 4000
 const app = express()
 const router = Router()
 
-const keyFilename = resolve("./config/key.json")
-const googleLabelDetector = new GoogleLabelDetector(keyFilename)
+const googleCredentials = resolve(process.env.GOOGLE_CREDENTIALS_PATH as string)
+const googleLabelDetector = new GoogleLabelDetector(googleCredentials)
 
 app.use(express.json())
 
