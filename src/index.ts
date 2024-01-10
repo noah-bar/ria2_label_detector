@@ -1,8 +1,11 @@
 import GoogleLabelDetector from "./GoogleLabelDetector";
 import express, {Request, Response, Router} from 'express'
 import { resolve } from "path";
+import dotenv from 'dotenv'
 
-const PORT = 4000
+dotenv.config()
+
+const PORT = process.env.PORT || 4000
 const app = express()
 const router = Router()
 
