@@ -22,7 +22,7 @@ router.post('/analyse', async (req: Request, res: Response) => {
     })
   }
   const maxResult = req.body.maxResult || 7
-  const minConfidenceLevel = req.body.maxResult || 90
+  const minConfidenceLevel = req.body.minConfidenceLevel || 90
   const labels = await googleLabelDetector.analyze(image, maxResult, minConfidenceLevel)
   res.json(labels)
 })
