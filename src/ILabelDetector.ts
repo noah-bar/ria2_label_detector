@@ -4,6 +4,6 @@ export type Label = {
 }
 
 export interface ILabelDetector {
-    analyze(imagePath: string, maxLabels?: number, minConfidenceLevel?: number): Promise<Label[]>
+    analyze(imagePath: string, maxResults?: number, minConfidenceLevel?: number): Promise<Label[]>
 }
 
