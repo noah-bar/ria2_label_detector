@@ -46,6 +46,26 @@ List all dependencies and their version needed by the project as :
    ```
    node dist/index.js
    ```
+## Docker
+To containerize and run the application using Docker, use the following commands:
+### On dev environment
+1. Build the Docker image with the dev configuration.
+   ```
+   docker build . -f Dockerfile.dev -t label_detector:dev
+   ```
+2. Run the Docker container in detached mode, mapping the container's port 4000 to the host's port 4000.
+   ```
+   docker run -d -p 4000:4000 --name label_detector_dev label_detector:dev
+   ```
+### On integration environment
+1. Build the Docker image with the production configuration.
+   ```
+   docker build . -f Dockerfile -t label_detector:prod
+   ```
+2. Run the Docker container in detached mode, mapping the container's port 4000 to the host's port 4000.
+   ```
+   docker run -d -p 4000:4000 --name label_detector_prod label_detector:prod
+   ```
 ## Directory structure
 ```console
 labelDetector
